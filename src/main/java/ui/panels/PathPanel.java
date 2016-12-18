@@ -1,4 +1,4 @@
-package panels;
+package ui.panels;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -14,14 +14,13 @@ public class PathPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 
 	public TextField textField = new TextField();
-	public static JLabel label = new JLabel("");
+	public static JLabel label = new JLabel();
 
 	public PathPanel(String text) {
 		setLayout(new FlowLayout());
 
 		textField.setPreferredSize(new Dimension(400, 25));
-
-		textField.setText(setPath());
+		textField.setText(getInitialPath());
 
 		add(new JLabel(text));
 		add(textField);
@@ -33,9 +32,8 @@ public class PathPanel extends JPanel {
 		label.setForeground(Color.GREEN);
 	}
 
-	private String setPath() {
-		String path = "";
-		path = new File(".").getAbsolutePath();
+	private String getInitialPath() {
+		String path = new File(".").getAbsolutePath();
 		return path.substring(0, path.length() - 1);
 	}
 }

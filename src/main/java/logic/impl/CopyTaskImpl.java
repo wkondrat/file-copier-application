@@ -1,4 +1,4 @@
-package factory.impl;
+package logic.impl;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -10,17 +10,17 @@ import java.io.OutputStream;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import events.CanNotCopyFileException;
-import factory.Factory;
+import logic.CopyTask;
+import logic.exceptions.CanNotCopyFileException;
 
-public class CopyFileFactory implements Factory{
+class CopyTaskImpl implements CopyTask {
 	
-	private static final Logger logger = LogManager.getLogger(CopyFileFactory.class);
+	private static final Logger logger = LogManager.getLogger(CopyTaskImpl.class);
 	
 	private File source;
 	private File destinationFolder;
 	
-	public CopyFileFactory(File source, File destinationFolder) {
+	public CopyTaskImpl(File source, File destinationFolder) {
 		this.source = source;
 		this.destinationFolder = destinationFolder;
 	}
@@ -28,8 +28,8 @@ public class CopyFileFactory implements Factory{
 	public void perform() {
 		InputStream inStream = null;
         OutputStream outStream = null;
+        
 		try {
-			System.out.println(destinationFolder.getAbsolutePath()); // do zmiany
 			inStream = new FileInputStream(source);
             outStream = new FileOutputStream(destinationFolder);
             
@@ -40,8 +40,8 @@ public class CopyFileFactory implements Factory{
                 outStream.write(buffer, 0, length);
             }
 
-            if (inStream != null)inStream.close();
-            if (outStream != null)outStream.close();
+            if (inStream != null) inStream.close();
+            if (outStream != null) outStream.close();
             logger.debug("File successfully copied");
 		} catch (IOException e) {
 			System.out.println(source.getAbsolutePath()); // do zmiany
@@ -54,5 +54,4 @@ public class CopyFileFactory implements Factory{
 			}
 		}
 	}
-
 }

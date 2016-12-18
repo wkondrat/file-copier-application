@@ -1,4 +1,4 @@
-package events;
+package logic.exceptions;
 
 public class CanNotCopyFileException extends Exception {
 

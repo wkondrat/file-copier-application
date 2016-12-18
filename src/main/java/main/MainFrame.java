@@ -2,7 +2,7 @@ package main;
 
 import javax.swing.JFrame;
 
-import panels.MainPanel;
+import ui.panels.MainPanel;
 
 public class MainFrame {
 	
