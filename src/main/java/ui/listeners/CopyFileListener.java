@@ -10,18 +10,18 @@ import javax.swing.JOptionPane;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import logic.CopyTask;
+import logic.copytask.CopyTask;
+import logic.copytask.impl.CopyTaskFactory;
 import logic.exceptions.DirectoryDoesNotExistException;
 import logic.exceptions.FileDoesNotExistException;
 import logic.exceptions.ReadPermissionException;
 import logic.exceptions.UsableSpaceException;
 import logic.exceptions.WritePermissionException;
-import logic.impl.CopyTaskFactory;
 import logic.validators.Validators;
 
 public class CopyFileListener implements ActionListener {
 
-	private static final Logger logger = LogManager.getLogger(CopyFileListener.class);
+	private static final Logger LOGGER = LogManager.getLogger(CopyFileListener.class);
 	private static final String PREFIX = "copy-";
 	private static final String COPY_ERROR_MESSAGE = "Sorry, can't copy file";
 	
@@ -46,7 +46,7 @@ public class CopyFileListener implements ActionListener {
 		try {
 			Validators.isEnoughSpace(source, destination);
 		} catch (UsableSpaceException e) {
-			errorOccurred();
+			handleCriticalExpcetion();
 		}
 	}
 
@@ -55,9 +55,9 @@ public class CopyFileListener implements ActionListener {
 			Validators.existDirectoryValidator(directory);
 			Validators.isDirectoryWrittable(directory.toPath());
 		} catch (DirectoryDoesNotExistException e) {
-			errorOccurred();
+			handleCriticalExpcetion();
 		} catch (WritePermissionException e) {
-			errorOccurred();
+			handleCriticalExpcetion();
 		}
 	}
 
@@ -66,13 +66,13 @@ public class CopyFileListener implements ActionListener {
 			Validators.existFileValidator(source);
 			Validators.isFileReadable(source.toPath());
 		} catch (FileDoesNotExistException e) {
-			errorOccurred();
+			handleCriticalExpcetion();
 		} catch (ReadPermissionException e) {
-			errorOccurred();
+			handleCriticalExpcetion();
 		}
 	}
 
-	private void errorOccurred() {
+	private void handleCriticalExpcetion() {
 		JOptionPane.showMessageDialog(null, COPY_ERROR_MESSAGE);
 		System.exit(0);
 	}
@@ -95,7 +95,7 @@ public class CopyFileListener implements ActionListener {
 	}
 
 	private void canceledChoice(String CanceledChoice) {
-		logger.info(CanceledChoice);
+		LOGGER.info(CanceledChoice);
 		JOptionPane.showMessageDialog(null, CanceledChoice);
 		System.exit(0);
 	}

@@ -1,8 +1,8 @@
-package logic.impl;
+package logic.copytask.impl;
 
 import java.io.File;
 
-import logic.CopyTask;
+import logic.copytask.CopyTask;
 
 public class CopyTaskFactory {	
 	public CopyTask getCopyTask(File fileToCopy, File destination) {

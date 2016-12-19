@@ -6,17 +6,18 @@ import ui.panels.MainPanel;
 
 public class MainFrame {
 	
-	public static MainPanel mainPanel = new MainPanel();
 
 	public static void main(String[] args) {
-		JFrame f = new JFrame("File Copier");
-		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);	
+		MainPanel mainPanel = new MainPanel();
+		String frameName = "File Copier";
+		JFrame frame = new JFrame(frameName);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);	
 		
-		f.add(mainPanel);
-		f.pack();
+		frame.add(mainPanel);
+		frame.pack();
 
-		f.setResizable(false);
-		f.setLocationRelativeTo(null);
-		f.setVisible(true);
+		frame.setResizable(false);
+		frame.setLocationRelativeTo(null);
+		frame.setVisible(true);
 	}
 }

@@ -1,4 +1,4 @@
-package logic;
+package logic.copytask;
 
 public interface CopyTask {
 	public void perform();
