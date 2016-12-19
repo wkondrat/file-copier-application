@@ -53,7 +53,7 @@ public class CopyFileListener implements ActionListener {
 	private void validateDirectory(File directory) {
 		try {
 			Validators.existDirectoryValidator(directory);
-			Validators.isDirectoryWrittable(directory.toPath());
+			Validators.isFileWritable(directory.toPath());
 		} catch (DirectoryDoesNotExistException e) {
 			handleCriticalExpcetion();
 		} catch (WritePermissionException e) {

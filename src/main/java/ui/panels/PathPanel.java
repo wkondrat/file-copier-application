@@ -5,6 +5,7 @@ import java.awt.FlowLayout;
 import java.awt.TextField;
 import java.io.File;
 
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class PathPanel extends JPanel {
@@ -17,6 +18,7 @@ public class PathPanel extends JPanel {
 		setLayout(new FlowLayout());
 		textField.setPreferredSize(new Dimension(400, 25));
 		textField.setText(getInitialPath());
+		add(new JLabel(text));
 		add(textField);
 	}
 	

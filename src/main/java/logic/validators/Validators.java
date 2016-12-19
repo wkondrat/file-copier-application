@@ -26,9 +26,9 @@ public class Validators {
 		return true;
 	}
 	
-	public static boolean isDirectoryWrittable (Path directoryPath) throws WritePermissionException {
-		if(!Files.isWritable(directoryPath)){
-			throw new WritePermissionException(directoryPath);
+	public static boolean isFileWritable (Path filePath) throws WritePermissionException {
+		if(!Files.isWritable(filePath)){
+			throw new WritePermissionException(filePath);
 		}
 		return true;
 	}
