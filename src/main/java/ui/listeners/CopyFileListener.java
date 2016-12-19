@@ -14,6 +14,7 @@ import logic.CopyTask;
 import logic.exceptions.DirectoryDoesNotExistException;
 import logic.exceptions.FileDoesNotExistException;
 import logic.exceptions.ReadPermissionException;
+import logic.exceptions.UsableSpaceException;
 import logic.exceptions.WritePermissionException;
 import logic.impl.CopyTaskFactory;
 import logic.validators.Validators;
@@ -31,6 +32,7 @@ public class CopyFileListener implements ActionListener {
 		if (source != null) {
 			File directory = chooseDirectory();
 			validateDirectory(directory);
+			validateUsableSpace(source, directory);
 			
 			if (directory != null) {
 				File target = new File(directory, PREFIX + source.getName());
@@ -40,16 +42,22 @@ public class CopyFileListener implements ActionListener {
 		}
 	}
 
+	private void validateUsableSpace(File source, File destination) {
+		try {
+			Validators.isEnoughSpace(source, destination);
+		} catch (UsableSpaceException e) {
+			errorOccurred();
+		}
+	}
+
 	private void validateDirectory(File directory) {
 		try {
 			Validators.existDirectoryValidator(directory);
 			Validators.isDirectoryWrittable(directory.toPath());
 		} catch (DirectoryDoesNotExistException e) {
-			JOptionPane.showMessageDialog(null, COPY_ERROR_MESSAGE);
-			System.exit(0);
+			errorOccurred();
 		} catch (WritePermissionException e) {
-			JOptionPane.showMessageDialog(null, COPY_ERROR_MESSAGE);
-			System.exit(0);
+			errorOccurred();
 		}
 	}
 
@@ -58,22 +66,24 @@ public class CopyFileListener implements ActionListener {
 			Validators.existFileValidator(source);
 			Validators.isFileReadable(source.toPath());
 		} catch (FileDoesNotExistException e) {
-			JOptionPane.showMessageDialog(null, COPY_ERROR_MESSAGE);
-			System.exit(0);
+			errorOccurred();
 		} catch (ReadPermissionException e) {
-			JOptionPane.showMessageDialog(null, COPY_ERROR_MESSAGE);
-			System.exit(0);
+			errorOccurred();
 		}
+	}
+
+	private void errorOccurred() {
+		JOptionPane.showMessageDialog(null, COPY_ERROR_MESSAGE);
+		System.exit(0);
 	}
 	
 	private File chooseSourceFile() {
 		JFileChooser fileChooser = new JFileChooser();
-		int valueOfSelectedFileOption = fileChooser.showDialog(null, "Select File");
+		String dialogName = "File selection";
+		int valueOfSelectedFileOption = fileChooser.showDialog(null, dialogName);
 		if (valueOfSelectedFileOption == JFileChooser.CANCEL_OPTION) {
 			String CanceledChoice = "Canceled choice of file";
-			logger.info(CanceledChoice);
-			JOptionPane.showMessageDialog(null, CanceledChoice);
-			System.exit(0);
+			canceledChoice(CanceledChoice);
 		}
 		
 		if (valueOfSelectedFileOption == JFileChooser.APPROVE_OPTION) {
@@ -83,17 +93,21 @@ public class CopyFileListener implements ActionListener {
 		
 		return null;
 	}
+
+	private void canceledChoice(String CanceledChoice) {
+		logger.info(CanceledChoice);
+		JOptionPane.showMessageDialog(null, CanceledChoice);
+		System.exit(0);
+	}
 	
 	private File chooseDirectory() {
 		JFileChooser destinationDirectory = new JFileChooser();
 		destinationDirectory.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-		
-		int valueOfSelectedDirectoryOption = destinationDirectory.showDialog(null, "Select Folder");
+		String dialogName = "Folder selection";
+		int valueOfSelectedDirectoryOption = destinationDirectory.showDialog(null, dialogName);
 		if (valueOfSelectedDirectoryOption == JFileChooser.CANCEL_OPTION) {
 			String CanceledChoice = "Canceled choice of directory";
-			logger.info(CanceledChoice);
-			JOptionPane.showMessageDialog(null, CanceledChoice);
-			System.exit(0);
+			canceledChoice(CanceledChoice);
 		}
 		
 		if (valueOfSelectedDirectoryOption == JFileChooser.APPROVE_OPTION) {

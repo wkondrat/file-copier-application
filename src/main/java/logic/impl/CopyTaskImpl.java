@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import javax.swing.JOptionPane;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -27,6 +29,7 @@ class CopyTaskImpl implements CopyTask {
 	public void perform() {
 		InputStream inStream = null;
         OutputStream outStream = null;
+        String success = "File successfully copied";
         
 		try {
 			inStream = new FileInputStream(source);
@@ -41,9 +44,13 @@ class CopyTaskImpl implements CopyTask {
 
             if (inStream != null) inStream.close();
             if (outStream != null) outStream.close();
-            logger.debug("File successfully copied");
+            
+			logger.info(success);
 		} catch (IOException e) {
-				e.toString();
+				String error = "not specified error occurred";
+				logger.error(error);
+				JOptionPane.showMessageDialog(null, error);
+				System.exit(0);
 			}
 		}
 }

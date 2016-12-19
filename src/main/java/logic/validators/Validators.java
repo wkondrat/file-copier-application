@@ -7,6 +7,7 @@ import java.nio.file.Path;
 import logic.exceptions.DirectoryDoesNotExistException;
 import logic.exceptions.FileDoesNotExistException;
 import logic.exceptions.ReadPermissionException;
+import logic.exceptions.UsableSpaceException;
 import logic.exceptions.WritePermissionException;
 
 public class Validators {
@@ -35,6 +36,15 @@ public class Validators {
 	public static boolean isFileReadable (Path filePath) throws ReadPermissionException {
 		if(!Files.isReadable(filePath)){
 			throw new ReadPermissionException(filePath);
+		}
+		return true;
+	}
+	
+	public static boolean isEnoughSpace (File source, File destination) throws UsableSpaceException {
+		long sourceSize = source.length();
+		long destinationUsableSpaceSize = destination.getUsableSpace();
+		if (sourceSize >= destinationUsableSpaceSize) {
+			throw new UsableSpaceException(sourceSize, destinationUsableSpaceSize);
 		}
 		return true;
 	}
