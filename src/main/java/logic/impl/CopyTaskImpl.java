@@ -11,7 +11,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import logic.CopyTask;
-import logic.exceptions.CanNotCopyFileException;
 
 class CopyTaskImpl implements CopyTask {
 	
@@ -44,14 +43,7 @@ class CopyTaskImpl implements CopyTask {
             if (outStream != null) outStream.close();
             logger.debug("File successfully copied");
 		} catch (IOException e) {
-			System.out.println(source.getAbsolutePath()); // do zmiany
-			System.out.println(destinationFolder.getAbsolutePath()); // do zmiany
-			try {
-				throw new CanNotCopyFileException();
-			} catch (CanNotCopyFileException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
+				e.toString();
 			}
 		}
-	}
 }

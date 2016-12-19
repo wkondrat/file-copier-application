@@ -4,11 +4,11 @@ import javax.swing.JButton;
 
 import ui.listeners.CopyFileListener;
 
-public class SelectFileBtn extends JButton{
+public class SelectFileButton extends JButton{
 
 	private static final long serialVersionUID = 1L;
 
-	public SelectFileBtn (String text) {
+	public SelectFileButton (String text) {
 		this.addActionListener(new CopyFileListener());
 		this.setText(text);
 	}
