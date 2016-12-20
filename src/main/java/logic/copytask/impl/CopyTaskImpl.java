@@ -47,10 +47,8 @@ class CopyTaskImpl implements CopyTask {
 				inStream.close();
 			if (outStream != null)
 				outStream.close();
-
+			
 			LOGGER.info(SUCCESS);
-			JOptionPane.showMessageDialog(null, SUCCESS);
-			System.exit(0);
 		} catch (IOException e) {
 			LOGGER.error(ERROR + e.getMessage());
 			JOptionPane.showMessageDialog(null, ERROR);

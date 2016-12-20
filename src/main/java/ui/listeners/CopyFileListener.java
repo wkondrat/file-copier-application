@@ -24,6 +24,7 @@ public class CopyFileListener implements ActionListener {
 	private static final Logger LOGGER = LogManager.getLogger(CopyFileListener.class);
 	private static final String PREFIX = "copy-";
 	private static final String COPY_ERROR_MESSAGE = "Sorry, can't copy file";
+	private static final String SUCCESS = "File successfully copied";
 	
 	public void actionPerformed(ActionEvent arg0) {
 		File source = chooseSourceFile();
@@ -38,6 +39,9 @@ public class CopyFileListener implements ActionListener {
 				File target = new File(directory, PREFIX + source.getName());
 				CopyTask copyTask = new CopyTaskFactory().getCopyTask(source, target);
 				copyTask.perform();
+				
+				JOptionPane.showMessageDialog(null, SUCCESS);
+				System.exit(0);
 			}
 		}
 	}
