@@ -3,6 +3,7 @@ package ui.listeners;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.IOException;
 
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -25,7 +26,7 @@ public class CopyFileListener implements ActionListener {
 	private static final String PREFIX = "copy-";
 	private static final String COPY_ERROR_MESSAGE = "Sorry, can't copy file";
 	private static final String SUCCESS = "File successfully copied";
-	
+
 	public void actionPerformed(ActionEvent arg0) {
 		File source = chooseSourceFile();
 		validateFile(source);
@@ -34,13 +35,17 @@ public class CopyFileListener implements ActionListener {
 			File directory = chooseDirectory();
 			validateDirectory(directory);
 			validateUsableSpace(source, directory);
-			
+
 			if (directory != null) {
 				File target = new File(directory, PREFIX + source.getName());
 				CopyTask copyTask = new CopyTaskFactory().getCopyTask(source, target);
-				copyTask.perform();
-				
-				JOptionPane.showMessageDialog(null, SUCCESS);
+				try {
+					copyTask.perform();
+				} catch (IOException e) {
+					handleCriticalExpcetion();
+				}
+
+				JOptionPane.showMessageDialog(null, SUCCESS);			
 				System.exit(0);
 			}
 		}
@@ -78,9 +83,9 @@ public class CopyFileListener implements ActionListener {
 
 	private void handleCriticalExpcetion() {
 		JOptionPane.showMessageDialog(null, COPY_ERROR_MESSAGE);
-		System.exit(0);
+		System.exit(1);
 	}
-	
+
 	private File chooseSourceFile() {
 		JFileChooser fileChooser = new JFileChooser();
 		String dialogName = "File selection";
@@ -89,12 +94,12 @@ public class CopyFileListener implements ActionListener {
 			String CanceledChoice = "Canceled choice of file";
 			canceledChoice(CanceledChoice);
 		}
-		
+
 		if (valueOfSelectedFileOption == JFileChooser.APPROVE_OPTION) {
 			String filePath = fileChooser.getSelectedFile().getAbsolutePath();
 			return new File(filePath);
 		}
-		
+
 		return null;
 	}
 
@@ -103,7 +108,7 @@ public class CopyFileListener implements ActionListener {
 		JOptionPane.showMessageDialog(null, CanceledChoice);
 		System.exit(0);
 	}
-	
+
 	private File chooseDirectory() {
 		JFileChooser destinationDirectory = new JFileChooser();
 		destinationDirectory.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
@@ -113,12 +118,12 @@ public class CopyFileListener implements ActionListener {
 			String CanceledChoice = "Canceled choice of directory";
 			canceledChoice(CanceledChoice);
 		}
-		
+
 		if (valueOfSelectedDirectoryOption == JFileChooser.APPROVE_OPTION) {
 			String destinationPath = destinationDirectory.getSelectedFile().getAbsolutePath();
 			return new File(destinationPath);
 		}
-		
+
 		return null;
 	}
 }

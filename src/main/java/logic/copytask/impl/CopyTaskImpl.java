@@ -7,8 +7,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import javax.swing.JOptionPane;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -19,7 +17,7 @@ class CopyTaskImpl implements CopyTask {
 	private static final Logger LOGGER = LogManager.getLogger(CopyTaskImpl.class);
 	private static final String SUCCESS = "File successfully copied";
 	private static final String ERROR = "Error occurred when copying the file";
-	
+
 	private File source;
 	private File destinationFolder;
 
@@ -28,7 +26,7 @@ class CopyTaskImpl implements CopyTask {
 		this.destinationFolder = destinationFolder;
 	}
 
-	public void perform() {
+	public void perform() throws IOException {
 		InputStream inStream = null;
 		OutputStream outStream = null;
 
@@ -47,12 +45,14 @@ class CopyTaskImpl implements CopyTask {
 				inStream.close();
 			if (outStream != null)
 				outStream.close();
-			
-			LOGGER.info(SUCCESS);
+
+			String successMessage = String.join(" ", SUCCESS, "From", source.getAbsolutePath(), "to",
+					destinationFolder.getParent(), "and saved as", destinationFolder.getName() );
+
+			LOGGER.info(successMessage);
 		} catch (IOException e) {
 			LOGGER.error(ERROR + e.getMessage());
-			JOptionPane.showMessageDialog(null, ERROR);
-			System.exit(0);
+			throw new IOException();
 		}
 	}
 }
