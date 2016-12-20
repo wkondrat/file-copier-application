@@ -47,9 +47,11 @@ public class CopyTaskImplTest {
 		testDirectory = folder.newFolder(directoryName);
 		CopyTask copyTask = new CopyTaskFactory().getCopyTask(testFile, testDirectory);
 		//when
-		copyTask.perform();
-		//then
-		assertTrue(true);
+		try {
+			copyTask.perform();
+		} catch (IOException e) {
+			fail("Exception was not expected to be thrown.");
+		}
 	}
 
 }
