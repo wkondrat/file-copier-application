@@ -10,7 +10,7 @@ The app is suppose to copy given file to selected directory.
 The project is implemented in Java, user interface has been built with Swing.
 
 ###How to build the app
-`mvn package assembly:single`
+`mvn package`
 
 ###How to run the app
 `java -jar target\file-copier-application-0.0.1-SNAPSHOT-jar-with-dependencies.jar`
