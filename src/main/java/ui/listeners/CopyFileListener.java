@@ -23,7 +23,6 @@ import logic.validators.Validators;
 public class CopyFileListener implements ActionListener {
 
 	private static final Logger LOGGER = LogManager.getLogger(CopyFileListener.class);
-	private static final String PREFIX = "copy-";
 	private static final String COPY_ERROR_MESSAGE = "Sorry, can't copy file";
 	private static final String SUCCESS = "File successfully copied";
 
@@ -37,7 +36,7 @@ public class CopyFileListener implements ActionListener {
 			validateUsableSpace(source, directory);
 
 			if (directory != null) {
-				File target = new File(directory, PREFIX + source.getName());
+				File target = new File(directory.getAbsolutePath());
 				CopyTask copyTask = new CopyTaskFactory().getCopyTask(source, target);
 				try {
 					copyTask.perform();
@@ -55,6 +54,8 @@ public class CopyFileListener implements ActionListener {
 		try {
 			Validators.isEnoughSpace(source, destination);
 		} catch (UsableSpaceException e) {
+			String errorMessage = String.join(" ", "From", source.getAbsolutePath(), "to", destination.getAbsolutePath());
+			LOGGER.error(errorMessage);
 			handleCriticalExpcetion();
 		}
 	}

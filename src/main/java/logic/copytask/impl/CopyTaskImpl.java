@@ -16,14 +16,15 @@ class CopyTaskImpl implements CopyTask {
 
 	private static final Logger LOGGER = LogManager.getLogger(CopyTaskImpl.class);
 	private static final String SUCCESS = "File successfully copied";
-	private static final String ERROR = "Error occurred when copying the file";
-
+	private static final String ERROR = "Error occurred when copying the file ";
+	private static final String PREFIX = "copy-";
+	
 	private File source;
 	private File destinationFolder;
 
 	public CopyTaskImpl(File source, File destinationFolder) {
 		this.source = source;
-		this.destinationFolder = destinationFolder;
+		this.destinationFolder = new File(destinationFolder, PREFIX + source.getName());
 	}
 
 	public void perform() throws IOException {
