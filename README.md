@@ -1,5 +1,6 @@
 #file-copier
 ===============
+[![Build Status](https://travis-ci.org/wkondrat/file-copier-application.svg?branch=master)](https://travis-ci.org/wkondrat/file-copier-application)
 
 ![](http://i68.tinypic.com/104klz9.png)
 
