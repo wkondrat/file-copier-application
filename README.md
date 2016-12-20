@@ -1,7 +1,7 @@
 #file-copier
 ===============
 
-![](http://oi63.tinypic.com/oj2mo7.jpg)
+![](http://i68.tinypic.com/104klz9.png)
 
 ###Goal
 The app is suppose to copy given file to selected directory.
@@ -10,7 +10,8 @@ The app is suppose to copy given file to selected directory.
 The project is implemented in Java, user interface has been built with Swing.
 
 ###How to run the app
-
+`mvn package assembly:single`
+`java -jar target\file-copier-application-0.0.1-SNAPSHOT-jar-with-dependencies.jar`
 
 ###How to run unit tests
 `mvn test` 
